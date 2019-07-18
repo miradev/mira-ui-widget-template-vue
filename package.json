@@ -1,0 +1,32 @@
+{
+  "name": "mira-ui-widget-template-vue",
+  "version": "0.1.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "scripts": {
+    "serve": "vue-cli-service serve ./dev-server.js",
+    "build": "node ./scripts/generate-widget.js",
+    "package": "node ./scripts/package-as-zip.js",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "^3.9.0",
+    "@vue/cli-service": "^3.9.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "adm-zip": "^0.4.13",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.9.0",
+    "prettier": "^1.18.2",
+    "pug": "^2.0.4",
+    "pug-loader": "^2.4.0",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintIgnore": [
+    "dist/*"
+  ]
+}

@@ -1,0 +1,20 @@
+root: true
+env:
+  node: true
+extends:
+  - "plugin:vue/essential"
+  - "@vue/prettier"
+plugins:
+  - "prettier"
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+  parser: babel-eslint
+settings:
+  import/resolver: node
+rules:
+  prettier/prettier: error
+  no-console: off
