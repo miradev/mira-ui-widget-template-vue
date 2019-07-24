@@ -23,11 +23,16 @@ if (!args[0].endsWith(fileExt)) {
 const prettierConfig = prettier.resolveConfig.sync(cwd)
 prettierConfig.parser = "babel"
 
+function kebabToPascalCase(str) {
+  return str.split("-").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join("")
+}
+
 function widgetCode(renderFunctions, scriptCode, manifest) {
+  const className = kebabToPascalCase(manifest.id)
   return `
   ${scriptCode.top}
 
-  class __${manifest.id} {
+  class __${kebabToPascalCase(className)} {
     setup() {
       // START OF: Compiled vue render functions DO NOT EDIT
   ${renderFunctions}
@@ -44,8 +49,8 @@ function widgetCode(renderFunctions, scriptCode, manifest) {
       return "${manifest.id}"
     }
   }
-  
-  wm.register(new __${manifest.id}())
+
+  wm.register(new __${className}())
   `
 }
 
@@ -65,6 +70,7 @@ function compileVueSFCToWidget(fileContents, filename, manifest) {
     source: parse.template.content,
     compiler,
     filename,
+    preprocessLang: parse.template.lang
   }).code
 
   // Compile styles block into a single style string
@@ -109,9 +115,9 @@ function validateManifest(manifest) {
     console.error("An 'id' field is required in the manifest")
     return false
   } else {
-    if (/[^a-zA-Z]/.test(manifest.id)) {
+    if (/[^a-zA-Z-]/.test(manifest.id)) {
       console.error(
-        "The 'id' field contains invalid characters! It should only contain letter characters a-z and A-Z",
+        "The 'id' field contains invalid characters! It should only contain characters a-z, A-Z, and '-'",
       )
       return false
     }
@@ -144,19 +150,18 @@ function validateManifest(manifest) {
   if (!manifestContents) {
     console.error(
       `A manifest.json file is required in the src folder to properly compile the Vue widget
-      
-      Example:
-      {
-        "id": "my-widget",
-        "name": "A Custom Widget",
-        "version": "1.0.0",
-        "author": "John Smith",
-        "entrypoint": {
-          "js": "main.js",
-          "css": "main.css"
-        }
-      }
-      `,
+
+Example:
+  {
+    "id": "my-widget",
+    "name": "A Custom Widget",
+    "version": "1.0.0",
+    "author": "John Smith",
+    "entrypoint": {
+      "js": "main.js",
+      "css": "main.css"
+    }
+  }`,
     )
     process.exit(1)
     return
