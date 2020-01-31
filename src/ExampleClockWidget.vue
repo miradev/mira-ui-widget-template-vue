@@ -1,7 +1,6 @@
-<template>
-  <div id="--NAME--">
-    <p>{{ time }}</p>
-  </div>
+<template lang="pug">
+  #--ID--
+  p {{ time }}
 </template>
 
 <script>
@@ -31,7 +30,7 @@ export default {
 <style lang="sass">
 @import url("https://fonts.googleapis.com/css?family=Roboto")
 
-#--NAME--
+#--ID--
   font-size: 80px
   font-family: "Roboto"
   color: #daf6ff

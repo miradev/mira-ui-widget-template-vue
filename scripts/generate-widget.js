@@ -7,6 +7,7 @@ const prettier = require("prettier")
 const args = process.argv.slice(2)
 const fileExt = ".vue"
 const cwd = process.cwd()
+const idTemplate = /--ID--/g
 
 if (args.length < 1) {
   console.error("You must supply a file in the src folder with .vue file extension")
@@ -58,7 +59,14 @@ function widgetCode(renderFunctions, scriptCode, manifest) {
 }
 
 function compileVueSFCToWidget(fileContents, filename, manifest) {
-  const expandedSource = fileContents.replace(/--NAME--/g, manifest.id)
+  if (!idTemplate.test(fileContents)) {
+    console.error(
+      "The .vue source file is missing the '--ID--' identifier, which is required to be replaced as the 'id' value from the manifest.json.",
+    )
+    process.exit(1)
+  }
+
+  const expandedSource = fileContents.replace(idTemplate, manifest.id)
 
   // Read SFC as blocks
   const parse = ccu.parse({
