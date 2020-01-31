@@ -1,9 +1,13 @@
 <template lang="pug">
   #--ID--
-  p {{ time }}
+    p {{ time }}
 </template>
 
 <script>
+function padDigits(num) {
+  return num.toString().padStart(2, "0")
+}
+
 export default {
   data() {
     return {
@@ -14,7 +18,16 @@ export default {
   methods: {
     updateTime() {
       const date = new Date()
-      this.time = `${date.getHours()} : ${date.getMinutes()} : ${date.getSeconds()}`
+      let hours = date.getHours()
+      let meridiem = "AM"
+      if (hours > 12) {
+        hours -= 12
+        meridiem = "PM"
+      }
+      const minutes = date.getMinutes()
+      const seconds = date.getSeconds()
+
+      this.time = `${padDigits(hours)} : ${padDigits(minutes)} : ${padDigits(seconds)} ${meridiem} `
     },
   },
 
