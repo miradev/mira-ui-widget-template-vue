@@ -24,7 +24,10 @@ const prettierConfig = prettier.resolveConfig.sync(cwd)
 prettierConfig.parser = "babel"
 
 function kebabToPascalCase(str) {
-  return str.split("-").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join("")
+  return str
+    .split("-")
+    .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+    .join("")
 }
 
 function widgetCode(renderFunctions, scriptCode, manifest) {
@@ -70,7 +73,7 @@ function compileVueSFCToWidget(fileContents, filename, manifest) {
     source: parse.template.content,
     compiler,
     filename,
-    preprocessLang: parse.template.lang
+    preprocessLang: parse.template.lang,
   }).code
 
   // Compile styles block into a single style string
@@ -139,11 +142,11 @@ function validateManifest(manifest) {
 
 ;(() => {
   const filename = args[0]
-
-  const fileAsString = fs.readFileSync(path.join(cwd, "src", filename), {
+  const fileAsString = fs.readFileSync(path.join(cwd, filename), {
     encoding: "utf8",
   })
-  const manifestContents = fs.readFileSync(path.join(cwd, "src", "manifest.json"), {
+  const parentFolder = path.basename(path.dirname(filename))
+  const manifestContents = fs.readFileSync(path.join(cwd, parentFolder, "manifest.json"), {
     encoding: "utf8",
   })
 
