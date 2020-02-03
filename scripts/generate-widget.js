@@ -148,6 +148,12 @@ function validateManifest(manifest) {
   return true
 }
 
+function sanitize(js) {
+  return `;(function() {
+    ${js.replace(`import axios from "axios"`, "")}
+  })();`
+}
+
 ;(() => {
   const filename = args[0]
   const fileAsString = fs.readFileSync(path.join(cwd, filename), {
@@ -175,12 +181,13 @@ Example:
   }`,
     )
     process.exit(1)
-    return
   }
 
   const manifest = JSON.parse(manifestContents)
   if (validateManifest(manifest)) {
     const output = compileVueSFCToWidget(fileAsString, filename, manifest)
+
+    output.js = sanitize(output.js)
 
     const distFolder = path.join(cwd, "dist")
     if (!fs.existsSync(distFolder)) {

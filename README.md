@@ -1,5 +1,7 @@
 # mira-ui-widget-template-vue
 
+To use `axios` in the widget for HTTP requests, add `import axios from "axios"` to the top of the `<script>` block. This import statement will be removed when the widget is built.
+
 ## Project setup
 ```
 yarn install
