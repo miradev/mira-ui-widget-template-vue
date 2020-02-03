@@ -12,7 +12,10 @@ const dirents = fs.readdirSync(distFolder, { withFileTypes: true })
 
 const fileNames = dirents
   .filter(dirent => dirent.isFile())
+  .filter(dirent => !dirent.name.endsWith(".zip"))
   .map(dirent => path.join(distFolder, dirent.name))
+
+console.log(`Packaging the following files into '${manifest.id}.zip': `, fileNames)
 
 for (const filename of fileNames) {
   zip.addLocalFile(filename)
