@@ -35,6 +35,7 @@ For this template repository using vue, you may leave the entrypoint as default.
 * name - a user friendly name for the widget
 * version - the version of the widget
 * author - the author of the widget
+* entrypoint - used to define the single javascript and css bundle files to load. For this template repository, this should be left as default.
 
 ### Caveats (what is --ID-- ?)
 
