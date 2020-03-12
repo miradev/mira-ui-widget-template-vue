@@ -6,7 +6,7 @@ const cwd = process.cwd()
 const distFolder = path.join(cwd, "dist")
 const zip = new AdmZip()
 
-const manifest = require("../src/manifest.json")
+const manifest = require(path.join(distFolder, "manifest.json"))
 
 const dirents = fs.readdirSync(distFolder, { withFileTypes: true })
 

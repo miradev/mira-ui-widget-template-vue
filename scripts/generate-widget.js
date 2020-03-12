@@ -171,8 +171,9 @@ function sanitize(js) {
   const fileAsString = fs.readFileSync(path.join(cwd, filename), {
     encoding: "utf8",
   })
-  const parentFolder = path.basename(path.dirname(filename))
-  const manifestContents = fs.readFileSync(path.join(cwd, parentFolder, "manifest.json"), {
+  const parentFolder = path.dirname(filename)
+  const manifestDir = path.join(cwd, parentFolder, "manifest.json")
+  const manifestContents = fs.readFileSync(manifestDir, {
     encoding: "utf8",
   })
 
@@ -211,6 +212,6 @@ Example:
       prettier.format(output.js, prettierConfig),
     )
     fs.writeFileSync(path.join(distFolder, "../dist/main.css"), output.css)
-    fs.copyFileSync(path.join(cwd, "src", "manifest.json"), path.join(distFolder, "manifest.json"))
+    fs.copyFileSync(manifestDir, path.join(distFolder, "manifest.json"))
   }
 })()
