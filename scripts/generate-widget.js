@@ -9,18 +9,6 @@ const fileExt = ".vue"
 const cwd = process.cwd()
 const idTemplate = /--ID--/g
 
-if (args.length < 1) {
-  console.error("You must supply a file in the src folder with .vue file extension")
-  process.exit(1)
-  return
-}
-
-if (!args[0].endsWith(fileExt)) {
-  console.error("File supplied must be a .vue file!")
-  process.exit(1)
-  return
-}
-
 const prettierConfig = prettier.resolveConfig.sync(cwd)
 prettierConfig.parser = "babel"
 
@@ -167,12 +155,29 @@ function sanitize(js) {
 }
 
 ;(() => {
-  const filename = args[0]
-  const fileAsString = fs.readFileSync(path.join(cwd, filename), {
+  if (args.length < 1) {
+    console.error(
+      "You must supply either a file in the src folder with .vue file extension, or a single string which will be expanded to target 'src/${string}/${string}.vue'",
+    )
+    process.exit(1)
+  }
+
+  let fileLocation = args[0]
+  if (!args[0].endsWith(fileExt)) {
+    const location = path.join(cwd, "src", fileLocation, fileLocation + fileExt)
+    if (!fs.existsSync(location)) {
+      console.error(`Argument supplied is neither a .vue file, nor does it exist in ${location}`)
+      process.exit(1)
+    }
+    fileLocation = location
+  }
+
+  const filename = fileLocation
+  const fileAsString = fs.readFileSync(filename, {
     encoding: "utf8",
   })
   const parentFolder = path.dirname(filename)
-  const manifestDir = path.join(cwd, parentFolder, "manifest.json")
+  const manifestDir = path.join(parentFolder, "manifest.json")
   const manifestContents = fs.readFileSync(manifestDir, {
     encoding: "utf8",
   })
