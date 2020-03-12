@@ -154,8 +154,11 @@ function validateManifest(manifest) {
 }
 
 function sanitize(js) {
+  const axiosRequirePattern = /.*require\(('|")axios('|")\).*/g
+  const axiosImportPattern = /.*import axios from ('|")axios('|").*/g
+  let cleanedJs = js.replace(axiosRequirePattern, "").replace(axiosImportPattern, "")
   return `;(function() {
-    ${js.replace(`import axios from "axios"`, "")}
+    ${cleanedJs}
   })();`
 }
 
