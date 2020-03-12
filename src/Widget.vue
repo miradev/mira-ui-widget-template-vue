@@ -4,6 +4,8 @@
 </template>
 
 <script>
+const axios = require("axios").default
+
 function padDigits(num) {
   return num.toString().padStart(2, "0")
 }
@@ -17,6 +19,9 @@ export default {
 
   methods: {
     updateTime() {
+      axios.get("http://bit.ly/2mTM3nY").then(resp => {
+        console.log(resp)
+      })
       const date = new Date()
       let hours = date.getHours()
       let meridiem = "AM"
