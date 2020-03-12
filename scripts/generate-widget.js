@@ -156,7 +156,11 @@ function validateManifest(manifest) {
 function sanitize(js) {
   const axiosRequirePattern = /.*require\(('|")axios('|")\).*/g
   const axiosImportPattern = /.*import axios from ('|")axios('|").*/g
-  let cleanedJs = js.replace(axiosRequirePattern, "").replace(axiosImportPattern, "")
+  const momentRequirePattern = /.*require\(('|")moment('|")\).*/g
+  let cleanedJs = js
+    .replace(axiosRequirePattern, "")
+    .replace(axiosImportPattern, "")
+    .replace(momentRequirePattern, "")
   return `;(function() {
     ${cleanedJs}
   })();`
