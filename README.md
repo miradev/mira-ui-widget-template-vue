@@ -99,6 +99,13 @@ yarn package
 
 This will create a `.zip` file in the `dist` directory using the id name specified in the manifest.json file.
 
+```
+yarn copy
+```
+
+This will copy all the `.zip` files from the `dist` directory to the `$HOME/.mira/widgets` folder for running on a
+local instance of the Mira UI system.
+
 ## Development Server to test your widget
 
 A local vue server instance can be run to locally test the widget:

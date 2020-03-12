@@ -7,6 +7,7 @@
     "serve": "vue-cli-service serve ./dev-server.js",
     "build": "node ./scripts/generate-widget.js",
     "package": "node ./scripts/package-as-zip.js",
+    "copy": "node ./scripts/install-local.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {},
