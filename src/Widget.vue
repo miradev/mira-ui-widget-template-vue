@@ -4,30 +4,23 @@
 </template>
 
 <script>
-function padDigits(num) {
-  return num.toString().padStart(2, "0")
-}
+const moment = require("moment")
 
 export default {
   data() {
     return {
       time: "",
+      config: null,
     }
   },
 
   methods: {
     updateTime() {
-      const date = new Date()
-      let hours = date.getHours()
-      let meridiem = "AM"
-      if (hours > 12) {
-        hours -= 12
-        meridiem = "PM"
+      if (this.config && this.config.format) {
+        this.time = moment().format(this.config.format)
+      } else {
+        this.time = moment().format("hh : mm : ss A")
       }
-      const minutes = date.getMinutes()
-      const seconds = date.getSeconds()
-
-      this.time = `${padDigits(hours)} : ${padDigits(minutes)} : ${padDigits(seconds)} ${meridiem} `
     },
   },
 

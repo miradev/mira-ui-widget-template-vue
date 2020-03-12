@@ -6,5 +6,8 @@
   "entrypoint": {
     "js": "main.js",
     "css": "main.css"
+  },
+  "configKeys": {
+    "format": "string"
   }
 }
