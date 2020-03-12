@@ -46,6 +46,12 @@ function widgetCode(renderFunctions, scriptCode, manifest) {
     el: \`#\${this.id}\`,
     ${scriptCode.props}
   })
+  this.vue.$on("config", (config) => {
+    console.log(config)
+    if (config) {
+      this.vue.$data["config"] = config
+    }
+  })
       // END OF: Compiled vue render functions DO NOT EDIT
     }
   
