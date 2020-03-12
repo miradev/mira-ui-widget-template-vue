@@ -1,5 +1,5 @@
 import Vue from "vue"
-import Widget from "@/Widget.vue"
+const Widget = require("@/" + process.env.SRC)
 
 Vue.config.productionTip = false
 

@@ -25,17 +25,23 @@ Example manifest.json:
   "entrypoint": {
     "js": "main.js",
     "css": "main.css"
+  },
+  "configKeys": {
+    "format": "string"
   }
 }
 ```
 
 For this template repository using vue, you may leave the entrypoint as default. The other fields can be edited as necessary.
 
-* id - a unique identifier for the widget, used by the marketplace and for rendering the widget (the root div will have it's id attribute set to this). Note that every widget should have a unique id, as the marketplace will not accept two different widgets with overlapping ids (a widget may only be updated with version bumps once it exists in the marketplace). **Please keep the id as all lower-case with hyphens separating words and phrases (no spaces.**
-* name - a user friendly name for the widget
-* version - the version of the widget
-* author - the author of the widget
-* entrypoint - used to define the single javascript and css bundle files to load. For this template repository, this should be left as default.
+- id - a unique identifier for the widget, used by the marketplace and for rendering the widget (the root div will have it's id attribute set to this). Note that every widget should have a unique id, as the marketplace will not accept two different widgets with overlapping ids (a widget may only be updated with version bumps once it exists in the marketplace). **Please keep the id as all lower-case with hyphens separating words and phrases (no spaces.**
+- name - a user friendly name for the widget
+- version - the version of the widget
+- author - the author of the widget
+- entrypoint - used to define the single javascript and css bundle files to load. For this template repository, this should be left as default.
+- configKeys - an object containing key-value pairs where the key names are the config keys, and the values define the type of value supported for each config key (string, boolean, or number)
+  - Custom configs are supported by the Mira platform for an individual user. A user can change the values for these configKeys on the Mira application website.
+  - If a widget wishes to use configKeys, it is also necessary to declare an empty or null config object in the `data()` return of the `.vue` source file (see the `Widget.vue` example).
 
 ### Caveats (what is --ID-- ?)
 
@@ -46,17 +52,33 @@ You may edit your manifest.json file to have a different `id` field.
 
 ## What if my widget needs to send HTTP requests?
 
-Use the [axios](https://github.com/axios/axios) library. Add `import axios from "axios"` to the top of the `<script>` block in your `Widget.vue` file. (This import statement will be removed when the widget is built.)
+Use the [axios](https://github.com/axios/axios) library. Add `const axios = require("axios").default` to the beginning of the `<script>` block in your widget's `.vue` file. Axios is supported by the Mira UI system globally, so this import statement will be automatically removed when the widget is built.
 
 e.g.
 
 ```vue
 <script>
-import axios from "axios"
+const axios = require("axios").default // this will be removed when the widget is compiled
 
 ...
 my vue widget code here
 use axios anywhere here
+...
+</script>
+```
+
+## Moment.js support
+The Mira UI system also globally supports [moment.js](https://github.com/moment/moment) out of the box. This can simply be used directly within the `<script>` block in your widget's `.vue` file. Add `const moment = require("moment")` to the beginning of the `<script>` block.
+
+e.g.
+
+```vue
+<script>
+const moment = require("moment") // this will be removed when the widget is compiled
+
+...
+my vue widget code here
+use moment anywhere here
 ...
 </script>
 ```
@@ -76,3 +98,20 @@ yarn package
 ```
 
 This will create a `.zip` file in the `dist` directory using the id name specified in the manifest.json file.
+
+## Development Server to test your widget
+
+A local vue server instance can be run to locally test the widget:
+
+```
+yarn serve --src=@
+```
+
+where @ is the location of your widget's `.vue` file, within the `src` folder.
+
+For the Widget.vue example, this command would be:
+```
+yarn serve --src=Widget.vue
+````
+
+since `Widget.vue` is located as `src/Widget.vue` relative to the root folder.
