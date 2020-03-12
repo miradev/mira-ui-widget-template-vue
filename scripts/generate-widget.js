@@ -47,7 +47,6 @@ function widgetCode(renderFunctions, scriptCode, manifest) {
     ${scriptCode.props}
   })
   this.vue.$on("config", (config) => {
-    console.log(config)
     if (config) {
       this.vue.$data["config"] = config
     }
